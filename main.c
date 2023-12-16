@@ -12,7 +12,7 @@ Sample output	:
 
 int main(int argc, char *argv[])
 {
-	D_list *head = NULL, *node;
+	D_list *head = NULL, *tail = NULL, *node;
 	node = malloc(sizeof(D_list));
 	if ( node == NULL )
 	{
