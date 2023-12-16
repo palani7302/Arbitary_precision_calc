@@ -1,5 +1,6 @@
 //including libraries
 #include <stdio.h>
+#include "main.h"
 
 /*
 Name			: Palani M
@@ -11,10 +12,19 @@ Sample output	:
 
 int main(int argc, char *argv[])
 {
+	D_list *head = NULL, *node;
+	node = malloc(sizeof(D_list));
+	if ( node == NULL )
+	{
+		return 1;
+	}
+
+	node->data = 25;
 
 	if ( argc == 4 )
 	{
 		printf("Arbitary_precision_calculator\n");
+		printf("Number is %d\n", node->data);
 	}
 	else if ( argc < 4 )
 	{
