@@ -14,36 +14,60 @@ int main(int argc, char *argv[])
 	D_list *head_1 = NULL, *tail_1 = NULL;
 	D_list *head_2 = NULL, *tail_2 = NULL;
 	D_list *head_out = NULL, *tail_out = NULL;
-	int i = 0;
+	int i = 0, ind;
 	char operator, op1, op2;
 
 	if ( argc == 4 )
 	{
-		if ( strcmp(argv[3], "+") == 0 )
+		if ( strcmp(argv[3], "+") == 0  || strcmp(argv[3], "-") == 0 || strcmp(argv[3], "x") == 0 || strcmp(argv[3], "/") == 0 )
 		{
 			printf("Arbitary_precision_calculator\n");
-			i = valid_args(argv[1], &op1);
-			while(argv[1][i])
+
+			i = valid_args(argv[1], &op1, &ind);
+
+			if ( i == FAILURE )
 			{
-				if ( insert_at_last(&head_1, &tail_1, argv[1][i] - 48) == SUCCESS )
-				{
-					i++;	
-				}
-				else
-					return FAILURE;
+				return FAILURE;
 			}
-			i = valid_args(argv[2], &op2);
-			while(argv[2][i])
+			else if ( i == SUCCESS )
 			{
-				if ( insert_at_last(&head_2, &tail_2, argv[2][i] - 48) == SUCCESS )
+				while(argv[1][ind])
 				{
-					i++;	
+					if ( insert_at_last(&head_1, &tail_1, argv[1][ind] - 48) == SUCCESS )
+					{
+						ind++;	
+					}
+					else
+						return FAILURE;
 				}
-				else
-					return FAILURE;
 			}
+
+			i = valid_args(argv[2], &op2, &ind);
+
+			if ( i == FAILURE )
+			{
+				return FAILURE;
+			}
+			else
+			{
+				while(argv[2][ind])
+				{	
+					if ( insert_at_last(&head_2, &tail_2, argv[2][ind] - 48) == SUCCESS )
+					{
+						ind++;	
+					}
+					else
+						return FAILURE;
+				}
+			}
+			
 			print_list(head_1);
 			print_list(head_2);
+		}
+		else
+		{
+			printf("INFO : ERROR\n");
+			printf("USAGE : ./a.out 34 26 +\n");
 		}
 	}
 	else if ( argc < 4 )
@@ -54,11 +78,6 @@ int main(int argc, char *argv[])
 	else if ( argc > 4 )
 	{
 		printf("INFO : Too many arguments\n");
-		printf("USAGE : ./a.out 34 26 +\n");
-	}
-	else
-	{
-		printf("INFO : ERROR\n");
 		printf("USAGE : ./a.out 34 26 +\n");
 	}
 
@@ -111,7 +130,44 @@ void print_list(D_list *head)
 	}
 }
 
-int valid_args(char *argv, char *op)
+int valid_args(char *argv, char *op, int *ind)
 {
-	return OP_NOT_FOUND;
+	int i = 0;
+	if (argv[0] == '+')
+	{
+		*op = '+';
+		*ind = 1;
+		i = 1;
+	}
+	else if ( argv[0] == '-')
+	{
+		*op = '-';
+		*ind = 1;
+		i = 1;
+	}
+	else if ( argv[0] >= '0' && argv[0] <= '9' )
+	{
+		*op = 0;
+		*ind = 0;
+		i = 0;
+	}
+	else
+	{
+		printf("Invalid operator\n");
+		return FAILURE;
+	}
+
+	while ( argv[i] )
+	{
+		if ( argv[i] >= '0' && argv[i] <= '9' )
+		{
+			i++;
+		}
+		else
+		{
+			printf("Invalid number\n");
+			return FAILURE;
+		}
+	}
+	return SUCCESS;
 }
