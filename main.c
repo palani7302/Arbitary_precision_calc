@@ -113,5 +113,5 @@ void print_list(D_list *head)
 
 int valid_args(char *argv, char *op)
 {
-	return OP_FOUND;
+	return OP_NOT_FOUND;
 }
